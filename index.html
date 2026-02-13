@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  background:
+  linear-gradient(90deg,#ffb3c1 25%,transparent 25%) -20px 0,
+  linear-gradient(#ffb3c1 25%,transparent 25%) -20px 0,
+  linear-gradient(90deg,transparent 75%,#ffb3c1 75%),
+  linear-gradient(transparent 75%,#ffb3c1 75%);
+  background-size:40px 40px;
+}
+
+.container{
+  width:360px;
+  min-height:100vh;
+  background:#fff5f7;
+  text-align:center;
+  padding:20px;
+  border-radius:25px;
+}
+
+h1{ color:#b11226; }
+
+.btn{
+  background:#d62828;
+  color:white;
+  border:none;
+  padding:18px;
+  width:80%;
+  font-size:20px;
+  border-radius:30px;
+  margin:10px 0;
+  cursor:pointer;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+}
+
+.gallery img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+  border-radius:15px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.gallery img:hover{
+  transform:scale(1.05);
+}
+
+/* LOADING SPINNER */
+.spinner{
+  width:60px;
+  height:60px;
+  border:6px solid #ffd6e0;
+  border-top:6px solid #d62828;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:auto;
+}
+
+@keyframes spin{
+  0%{transform:rotate(0)}
+  100%{transform:rotate(360deg)}
+}
+
+#page2,#loading{ display:none; }
+
+/* MODAL VIEW */
+.modal{
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
+}
+
+.modal img{
+  max-width:90%;
+  max-height:90%;
+  border-radius:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- PAGE 1 -->
+<div id="page1">
+<img width="150" src="https://image2url.com/r2/default/images/1770958246100-fae511fb-0c04-4470-8f35-486c1dc5939f.jpeg">
+
+<h1>Happy Valentine's Day</h1>
+<p>(o^_^o)</p>
+
+<button class="btn" onclick="goNext()">Open Memories 💌</button>
+</div>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Loading memories...</p>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2">
+<h2 style="color:#c9184a;">Our Beautiful Memories</h2>
+<div id="gallery" class="gallery"></div>
+</div>
+
+</div>
+
+<!-- IMAGE MODAL -->
+<div id="modal" class="modal" onclick="closeModal()">
+  <img id="modalImg">
+</div>
+
+<script>
+
+let savedImages = [
+"https://image2url.com/r2/default/images/1770957786956-ccdb17ba-82cd-425a-b86c-0f272e517da3.jpeg",
+"https://image2url.com/r2/default/images/1770957864131-d10eed2a-bfe9-49cd-81b7-d2ed85c93853.jpeg",
+"https://image2url.com/r2/default/images/1770957907456-830e19e2-32bc-4c48-8aa4-011a10c6dbaa.jpeg",
+"https://image2url.com/r2/default/images/1770957971258-0bb49066-acfb-4e12-9517-71841c8c6faf.jpeg",
+"https://image2url.com/r2/default/images/1770958015291-8703f847-c0cf-42dd-9849-fde81bb28ecc.jpeg"
+];
+
+function goNext(){
+  document.getElementById("page1").style.display="none";
+  document.getElementById("loading").style.display="block";
+
+  setTimeout(()=>{
+    document.getElementById("loading").style.display="none";
+    document.getElementById("page2").style.display="block";
+
+    const gallery=document.getElementById("gallery");
+
+    savedImages.forEach(src=>{
+      const img=document.createElement("img");
+      img.src=src;
+
+      // CLICK TO VIEW BIG
+      img.onclick=()=>openModal(src);
+
+      gallery.appendChild(img);
+    });
+
+  },2000);
+}
+
+// OPEN BIG IMAGE
+function openModal(src){
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("modalImg").src=src;
+}
+
+// CLOSE BIG IMAGE
+function closeModal(){
+  document.getElementById("modal").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
